@@ -32,24 +32,34 @@ class App extends Component {
       this.setState({habits:habits});
   };
 
-  totalCnt = (habits) => {
-    console.log(`call totla`);
+  handleAdd = (name) =>{
+    const habits = [...this.state.habits, {id : Date.now(), name : name, count : 0}];
+    this.setState({habits});
+  }
+
+  handleReset = ()=>{
+    const habits = this.state.habits.map(habit => {
+      habit.count = 0;
+      return habit;
+    });
+
+    this.setState({habits});
   }
 
   render(){
     return(
       <React.Fragment>
         <Navbar 
-          habits={this.state.habits}
-          totalCnt={this.totalCnt}
+          totalCnt={this.state.habits.filter((habit)=>habit.count > 0).length}
         />
         <Habits 
           habits={this.state.habits}
           increaseCount={this.increaseCount}
           decreaseCount={this.decreaseCount}
           deleteHabit={this.deleteHabit}
+          onAdd={this.handleAdd}
+          handleReset={this.handleReset}
         />
-        <button className="habit-button">Reset All</button>
       </React.Fragment>
     );
   }

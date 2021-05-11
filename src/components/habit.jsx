@@ -4,31 +4,22 @@ import React, {Component} from 'react';
  * UI Template
  */
 class Habit extends Component {
-    increaseCount = ()=>{
-        this.props.increaseCount(this.props.habit);
-    };
-    decreaseCount = ()=>{
-        this.props.decreaseCount(this.props.habit);
-    };
-    deleteHabit = ()=>{
-        this.props.deleteHabit(this.props.habit);
-    };
-
     render(){
-        const {name, count} = this.props.habit;
+        const props = this.props;
+        const habit = this.props.habit;
 
         return(
             <li className="habit">
-                <span className="habit-name">{name}</span>
-                <span className="habit-count">{count}</span>
-                <button className="habit-button habit-increase"
-                    onClick={this.increaseCount}
+                <span className="habit-name">{habit.name}</span>
+                <span className="habit-count">{habit.count}</span>
+                <button className="habit-button habit-increase" 
+                    onClick={()=>props.increaseCount(habit)}
                 ><i className="fas fa-plus-square"></i></button>
                 <button className="habit-button habit-decrease"
-                    onClick={this.decreaseCount}
+                    onClick={()=>props.decreaseCount(habit)}
                 ><i className="fas fa-minus-square"></i></button>
                 <button className="habit-button habit-delete"
-                    onClick={this.deleteHabit}
+                    onClick={()=>props.deleteHabit(habit)}
                 ><i className="far fa-trash-alt"></i></button>
             </li>
         );
@@ -36,7 +27,7 @@ class Habit extends Component {
 }
 
 Habit.propTypes = {
-    habit : []
+    habit : {}
 }
 
 export default Habit;

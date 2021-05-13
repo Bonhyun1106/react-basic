@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
 /**
  * UI Template
  */
-class Habit extends Component {
+class Habit extends PureComponent {
     render(){
         const props = this.props;
         const habit = this.props.habit;
@@ -24,10 +24,6 @@ class Habit extends Component {
             </li>
         );
     }
-}
-
-Habit.propTypes = {
-    habit : {}
 }
 
 export default Habit;

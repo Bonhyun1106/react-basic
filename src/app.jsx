@@ -13,20 +13,29 @@ class App extends Component {
     ]
   }
 
+  // 직접 state를 수정하는것은 좋지 않다.
   increaseCount = (habit)=>{
-      // 직접 state를 수정하는것은 좋지 않다.
-      const habits = [...this.state.habits];
-      const index = habits.indexOf(habit);
-      habits[index].count++;
-      this.setState({habits:habits});
+      const habits = this.state.habits.map(item =>{
+        if(item.id === habit.id){
+          // 기존에 등록된 habit id라면 기존 객체를 복사하여 값을 업데이트한다
+          return {...habit, count : habit.count+1};
+        }
+        return item;
+      })
+      this.setState({habits});
   };
+
   decreaseCount = (habit)=>{
-      const habits = [...this.state.habits];
-      const index = habits.indexOf(habit);
-      const count = habits[index].count -1 ;
-      habits[index].count = count < 0 ? 0 : count;
+      const habits = this.state.habits.map(item =>{
+        if(item.id === habit.id){
+          const count = item.count -1;
+          return {...habit, count : count < 0 ? 0 : count};
+        }
+        return item;
+      });
       this.setState({habits:habits});
   };
+
   deleteHabit = (habit)=>{
       const habits = this.state.habits.filter( item => item.id !== habit.id);
       this.setState({habits:habits});
@@ -38,11 +47,12 @@ class App extends Component {
   }
 
   handleReset = ()=>{
-    const habits = this.state.habits.map(habit => {
-      habit.count = 0;
-      return habit;
+    const habits = this.state.habits.map(item => {
+      if(item.count !== 0){
+        return {...item, count:0}
+      }
+      return item;
     });
-
     this.setState({habits});
   }
 
